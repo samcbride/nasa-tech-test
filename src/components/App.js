@@ -5,7 +5,6 @@ import SearchResults from "./SearchResults";
 
 function App() {
   const [searchResults, setSearchResults] = useState();
-  console.log(searchResults);
   return (
     <div className="App">
       <img
@@ -14,7 +13,7 @@ function App() {
         alt="Nasa Company Logo"
       />
       <Search setSearchResults={setSearchResults} />
-      <SearchResults />
+      <SearchResults searchResults={searchResults} />
     </div>
   );
 }

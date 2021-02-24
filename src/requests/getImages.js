@@ -12,6 +12,7 @@ const getImages = (query) => {
           (result) => result.data[0].media_type === "image"
         );
         const images = parsedImages.map((image) => image.links[0].href);
+        console.log(images);
         return images;
       })
       .catch((err) => {
