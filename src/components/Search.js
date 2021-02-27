@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "../styles/Search.css";
-import getImages from "../requests/getImages";
+import PropTypes from "prop-types";
 
-const Search = ({ setSearchResults }) => {
+const Search = ({ handleSubmit }) => {
   const [value, setValue] = useState();
 
-  const handleSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    setSearchResults(await getImages(value));
+    handleSubmit(value);
   };
 
   return (
     <div className="Search">
-      <form className="search-form" onSubmit={handleSubmit}>
+      <form className="search-form" onSubmit={onSubmit}>
         <input
           className="search-area"
           type="text"
@@ -27,3 +27,7 @@ const Search = ({ setSearchResults }) => {
 };
 
 export default Search;
+
+Search.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+};
