@@ -1,9 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Search from "../components/Search";
-const stub = () => {};
-const mock = jest.fn();
+
 describe("Search", () => {
+  const stub = () => {};
+  const mock = jest.fn();
   const { asFragment } = render(<Search handleSubmit={stub} />);
 
   it("renders correctly", () => {
