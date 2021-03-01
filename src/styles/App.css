@@ -1,10 +1,12 @@
 .App {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  float: right;
 }
 
 .nasa-logo {
-  margin: auto;
   height: 30%;
   width: 30%;
 }

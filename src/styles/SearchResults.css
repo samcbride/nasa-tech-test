@@ -1,5 +1,15 @@
-p {
+.card-image {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  flex-wrap: wrap;
+  width: 17em;
+  margin: 1em;
+  border-radius: 2%;
 }
+
+/* img { 
+  height: 12em;
+  width: 17em;
+  margin: 1em;
+  border-radius: 2%;
+} */

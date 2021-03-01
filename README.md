@@ -48,7 +48,7 @@ Firstly, clone down the repo to your local machine. To run the tests to ensure t
   - We then created an event handler method for our input (in the search bar) - this allows us to collect the user's query and use that to search for results
     - We added a `useState()` hook for a `value` (`const [value, setValue = useState()];`), then added an event handler to our `input` => `onChange={(e) => setValue(e.target.value)}` - this saves the users search query every time there is a change in the search bar (e.g., "s", then "st", then "sta", then "star")
     - By doing this we're collecting data and storing it in state
-      - I believe this also means the component is no longer a **stateless functional component**, but is now a **class (or stateful) component**
+      - I believe this also means the component is no longer a **stateless functional component**, but is now a **stateful component**?? Is there a name for it?
   - We added a button (so a user can submit their search query) by creating a form and wrapping it around `input` and `button`
 
 - getImages Request
@@ -70,7 +70,7 @@ Firstly, clone down the repo to your local machine. To run the tests to ensure t
 
   - Orginally this task had me import getImages into my Search.js file, but after discussions with a tutor I instead decided to import getImages into my App.js file to better separate things
     - This way App.js can take care of all of the API calls and the individual components are only responsible for what they need to be responsible for (e.g., Search.js is only responsible for the input area and the Submit button). This makes more sense as Search.js doesn't really care about the API call, it just cares about the value being fed into it (e.g., the search term) and firing the `onSubmit` function when the button is clicked
-  - In App.js we added state (`const [searchResults, setSearchResults] = useState();`) - WHY DO WE HAVE AN EMPTY ARRAY IN USESTATE AGAIN????? - Is it something to do with starting state? It has a default state that we change??
+  - In App.js we added state (`const [searchResults, setSearchResults] = useState();`)
   - We then created an asychronous function `getSearchResults` that took a parameter `searchTerm`, creates a variable called `images` that calls our `getImages` function with the argument `searchTerm`. Our App state is also called via `setSearchResults`. It takes an argument of `images` (the above variable we just created that called the `getImages` function). This all essentially means that we've created a variable that performs an asychronous function, which takes in the value entered into the input box, puts it into the `getImages` function, which parses down the data to ensure only images are found and then looks for and returns the `href` of the images that match the query. As well, the state of App is updated: `setSearchResults` takes in the `images` variable (which has returned the users search request) and now, on display in our app webpage, are the results of the search/query
 
 - Returning to Search Component
@@ -110,21 +110,35 @@ Firstly, clone down the repo to your local machine. To run the tests to ensure t
   - The `else` part of our `if` statement returned the image results
 
 - PropTypes
+
   - We added in proptypes at the end for the components that required them. In this case it was the _Search.js_ and _SearchResults.js_ files as they were the two components that had props passed into them
+  - Props (or properties) are the parameters that we pass into the React component functions (because React components are functions - therefore they can take parameters)
+  - Props are used to make our components more re-usable and they allow us to control how our components get rendered. Using them we can make more generic components, which can be configured by passing in props from the parent context
+  - PropTypes (which comes from the `prop-types` library of React) tells React what type of thing each prop should be (function, number, etc) and whether the prop is required or optional - this can be useful for other developers who are using your components (they can see how they should be used). PropTypes can also help debug as they throw error messages if they are not used correctly
+  - PropTypes can also set _default props_, which can be very useful as if nothing is provided the default prop will take over
+
+- Components - what are they?
+  - They are the building blocks in React. It is part of the user interface. Instead of building am entire page, in React, we break the page and the entire application down into smaller, reusable pieces, and think about them in isolation
+  - Essentially, a component is a JavaScript function that returns a React element
 
 ## Testing
 
 - I followed similar testing patterns to what we used in the weather-app. I decided to conduct snapshot testing again. Snapshot testing allows us to see a 'snapshot' of our components and compare them to the last time our tests were successfully run. While not a robust test of how our code functions, they can be useful for highlighting any changes (unintentional and intentional) as well as giving us a visual of what the component looks like on a page
 - We also used the React Testing Library, which allowed us to render our components into a virtual DOM
 - In _App.js_ we only have a snapshot test
-- In _Search.js_ we have a snapshot test, as well as a test checking whether the button (which contains a certain text) is in the document
+- In _Search.js_ we have a snapshot test
+  - I also added a test checking whether the button (which contains a certain text: "Go") is in the document. For the button test I used the query `getByRole` and in the render section passed in the <Search /> component. As the Search component has a prop passed into it, I had to mock this data, which I did in the `describe` block above all the tests: `const stub = () => {};` - an empty function was used here to mock the data, as in the code it is a real function. For testing purposes it doesn't matter if a real function is used or not, it just needs to know that it is dealing with a function. Below this another variable (button) is created which takes the `getByRole` query and looks for the role (in this case `button`) and also tells it that the `name` or `text` on the button that it's looking for will be `Go`. We then assert or `expect` that button will be in the document: `expect(button).toBeInTheDocument();`
   - I also tested the functionality of the onSubmit function and whether it is called with the correct values
-
-To do this, we can use a library called React Testing Library. It allows us to render our components into a virtual DOM, and gives us some helper methods that help to make assertions about what is being rendered, and help us interact with the component by simulating clicks etc.
+    - Similar to the above test, I used `getByRole` and rendered the <Search /> component. This time however I used `const mock = jest.fn();` to mock the function. WHAT IS THE DIFFERENCE BETWEEN YOUR MOCK AND YOUR STUB???? Therefore, the mock was passed into the prop value: `const { getByRole } = render(<Search handleSubmit={mock} />);`. I then created two other variables, `input` and `button` and used the `getByRole` query to search for them. I used the `fireEvent` action to test the input and the button. For the input I used `fireEvent.change(input, { target: { value: "Nebula" } });` - this is essentially similating `onChange={(e) => setValue(e.target.value)}`. `input` in the test represents `(e)` in the code, `target` represents `target` and `value` represents `value`. Here I gave the `value: "Nebula"` as a mock search the user might make. I also used `fireEvent.click(button)` to test the button functionality. At the end I made the assertion `expect(mock).toHaveBeenCalledWith("Nebula");` - meaning when the mock function is being called, we're expecting it to have _"Nebula"_ as the `value`.
+- In _SearchResults.js_ we have a snapshot test
+  - I created a stub with some fake image files to represent the value of the `searchResults` prop (which is also the `state`)
+  - I also tested whether the _alt text_ for the _searchResults_ was being rendered correctly. This test lets us know that the element is rendering correctly in the user interface. The stub is again passed in as the value of the prop (\*searchResults). The assertion we're making is `getAllByAltText` and telling it was text to look for (`spaceImage`) - WHY DO WE NEED [0] HERE AGAIN????? Then we're matching the alt text to the class name of the component, which is `card-image`.
 
 ### What I would do if I had more time
 
 - Make the styling of the app a little better
+- Look at the tests section in more detail - are there more tests that can be added?
+  - Also look into more detail regarding the difference between fireEvent and userEvent in the React Testing Library
 
 ---
 
