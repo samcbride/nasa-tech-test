@@ -12,7 +12,7 @@ describe("Search", () => {
   });
 
   it("check button exists with correct text", () => {
-    const { getByRole } = render(<Search handleSubmit={mock} />); // Originally had `stub` in place of `mock` - is stub variable needed or can I just use mock? Aren't they essentially the same thing?
+    const { getByRole } = render(<Search handleSubmit={mock} />);
     const button = getByRole("button", { name: /Go/i });
     expect(button).toBeInTheDocument();
   });

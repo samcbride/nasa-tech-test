@@ -15,3 +15,5 @@ describe("SearchResults", () => {
     expect(getAllByAltText("spaceImage")[0]).toHaveClass("card-image");
   });
 });
+
+// Create a test here that checks if it's not called or it doesn't render
