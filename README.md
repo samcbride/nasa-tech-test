@@ -4,7 +4,7 @@ This project was an introduction to tech-tests using React. It built upon concep
 
 ## Screenshots - Desktop vs Mobile
 
-- Sreenshots to be added
+- Screenshots to be added
 
 ### Technologies
 
