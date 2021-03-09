@@ -48,7 +48,7 @@ Firstly, clone down the repo to your local machine. To run the tests to ensure t
   - We then created an event handler method for our input (in the search bar) - this allows us to collect the user's query and use that to search for results
     - We added a `useState()` hook for a `value` (`const [value, setValue = useState()];`), then added an event handler to our `input` => `onChange={(e) => setValue(e.target.value)}` - this saves the users search query every time there is a change in the search bar (e.g., "s", then "st", then "sta", then "star")
     - By doing this we're collecting data and storing it in state
-      - I believe this also means the component is no longer a **stateless functional component**, but is now a **stateful component**?? Is there a name for it?
+      - This also means that the component is no longer a **stateless functional component**, but is now a **stateful component** (as it is dealing with state that was created within it)
   - We added a button (so a user can submit their search query) by creating a form and wrapping it around `input` and `button`
 
 - getImages Request
